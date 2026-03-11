@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── EduForge MinMax 디자인 토큰 ── */
+  /* ── Fusion Planner 디자인 토큰 ── */
 
-  /* 브랜드 */
-  --color-primary: #4f46e5;
-  --color-primary-light: #818cf8;
-  --color-primary-dark: #3730a3;
-  --color-accent: #f59e0b;
-  --color-accent-light: #fbbf24;
+  /* 브랜드 — Deep Teal + Warm Coral */
+  --color-primary: #0d9488;
+  --color-primary-light: #5eead4;
+  --color-primary-dark: #0f766e;
+  --color-accent: #f97316;
+  --color-accent-light: #fb923c;
 
   /* 표면 */
   --color-surface: #ffffff;
@@ -17,7 +17,7 @@
   --color-border: #e2e8f0;
 
   /* 텍스트 */
-  --color-text-primary: #1e293b;
+  --color-text-primary: #0f172a;
   --color-text-secondary: #475569;
   --color-text-muted: #94a3b8;
 
@@ -47,7 +47,7 @@
   --color-link-extend: #a855f7;
 }
 
-/* 기본 타이포그래피 — MinMax 원칙 */
+/* 기본 타이포그래피 */
 body {
   font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
   font-size: 16px;

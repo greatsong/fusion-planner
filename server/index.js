@@ -9,7 +9,8 @@ import { standardsRouter } from './routes/standards.js'
 initStore()
 
 const app = express()
-const PORT = process.env.PORT || 4016
+// 로컬: 4016 고정 (Vite 4015와 충돌 방지). Vercel Serverless에서는 api/ 사용
+const PORT = process.env.SERVER_PORT || 4016
 
 app.use(helmet())
 app.use(cors({

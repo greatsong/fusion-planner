@@ -198,7 +198,7 @@ export default function ExplorerPage() {
     return (
       <div className="min-h-screen bg-[var(--color-surface-dim)] flex items-center justify-center">
         <div className="text-center">
-          <BookOpen size={48} className="mx-auto mb-4 text-[var(--color-primary-light)] animate-pulse" />
+          <BookOpen size={48} className="mx-auto mb-4 text-[var(--color-primary)] animate-pulse" />
           <p className="text-[var(--color-text-muted)]">교육과정 데이터 로딩 중...</p>
         </div>
       </div>
@@ -208,16 +208,14 @@ export default function ExplorerPage() {
   return (
     <div className="min-h-screen bg-[var(--color-surface-dim)]">
       {/* 헤더 */}
-      <header className="bg-[var(--color-surface)]/80 backdrop-blur-md border-b border-[var(--color-border)] sticky top-0 z-30">
+      <header className="bg-white/90 backdrop-blur-md border-b border-[var(--color-border)] sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3">
-          <button onClick={() => navigate('/')} className="p-1.5 text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-bright)] rounded-lg transition">
+          <button onClick={() => navigate('/')} className="p-1.5 text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-dim)] rounded-lg transition">
             <ArrowLeft size={20} />
           </button>
-          <div className="flex items-center gap-2 flex-1 min-w-0">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-light)] flex items-center justify-center shrink-0">
-              <BookOpen size={16} className="text-white" />
-            </div>
-            <h1 className="text-lg font-bold text-[var(--color-text-primary)] truncate">교육과정 연계 탐색기</h1>
+          <div className="flex items-center gap-2.5 flex-1 min-w-0">
+            <div className="w-1 h-6 rounded-full bg-[var(--color-primary)] shrink-0" />
+            <h1 className="text-lg font-bold text-[var(--color-text-primary)] truncate tracking-[-0.015em]">교육과정 연계 탐색기</h1>
           </div>
           <button onClick={() => navigate('/matrix')} className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-[var(--color-text-primary)] text-white rounded-lg hover:opacity-90 transition">
             <Grid3X3 size={14} /> 매트릭스
@@ -233,7 +231,7 @@ export default function ExplorerPage() {
             <input
               value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
               placeholder="성취기준 코드, 내용, 교과명으로 검색 (예: 과학, [4과11-03], 생태계)"
-              className="w-full pl-10 pr-10 py-3 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-sm transition"
+              className="w-full pl-10 pr-10 py-3 bg-white border border-[var(--color-border)] rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] text-sm transition"
               autoFocus={!selectedStandard}
             />
             {searchQuery && (
@@ -242,10 +240,10 @@ export default function ExplorerPage() {
             )}
           </div>
           {searchResults.length > 0 && (
-            <div className="mt-1 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl shadow-lg max-h-80 overflow-auto">
+            <div className="mt-1 bg-white border border-[var(--color-border)] rounded-xl shadow-lg max-h-80 overflow-auto">
               {searchResults.map(s => (
                 <button key={s.id} onClick={() => selectStandard(s)}
-                  className="w-full flex items-start gap-3 px-4 py-3 hover:bg-indigo-50 transition text-left border-b border-[var(--color-surface-bright)] last:border-0">
+                  className="w-full flex items-start gap-3 px-4 py-3 hover:bg-teal-50 transition text-left border-b border-[var(--color-surface-bright)] last:border-0">
                   <span className="px-2 py-0.5 text-xs font-bold text-white rounded shrink-0 mt-0.5"
                     style={{ backgroundColor: SUBJECT_COLORS[s.subject_group] || '#6b7280' }}>{s.subject_group}</span>
                   <div className="min-w-0 flex-1">
@@ -261,8 +259,8 @@ export default function ExplorerPage() {
 
         {/* 선택 전 안내 */}
         {!selectedStandard && searchResults.length === 0 && (
-          <div className="text-center py-16 bg-[var(--color-surface)] rounded-2xl border border-[var(--color-border)] mt-4 shadow-sm">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-indigo-100 to-violet-100 flex items-center justify-center">
+          <div className="text-center py-16 bg-white rounded-2xl border border-[var(--color-border)] mt-4 shadow-sm">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[var(--color-surface-dim)] border-2 border-[var(--color-border)] flex items-center justify-center">
               <BookOpen size={28} className="text-[var(--color-primary)]" />
             </div>
             <p className="text-[var(--color-text-secondary)] mb-1 font-medium">탐색할 성취기준을 검색하세요</p>
@@ -270,7 +268,7 @@ export default function ExplorerPage() {
             <div className="mt-8 flex flex-wrap justify-center gap-2">
               {['과학', '수학', '국어', '사회', '정보', '미술'].map(subject => (
                 <button key={subject} onClick={() => setSearchQuery(subject)}
-                  className="px-3 py-1.5 text-sm rounded-full border border-[var(--color-border)] hover:bg-indigo-50 hover:border-[var(--color-primary-light)] transition"
+                  className="px-3 py-1.5 text-sm rounded-full border border-[var(--color-border)] hover:bg-teal-50 hover:border-[var(--color-primary-light)] transition"
                   style={{ color: SUBJECT_COLORS[subject] || '#6b7280' }}>{subject}</button>
               ))}
             </div>
@@ -284,21 +282,21 @@ export default function ExplorerPage() {
             {breadcrumb.length > 0 && (
               <nav className="flex items-center gap-1 text-sm overflow-x-auto pb-1">
                 <button onClick={() => { setSelectedStandard(null); setBreadcrumb([]); setSearchParams({}) }}
-                  className="p-1 text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-indigo-50 rounded transition shrink-0"><Home size={14} /></button>
+                  className="p-1 text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-teal-50 rounded transition shrink-0"><Home size={14} /></button>
                 {breadcrumb.map((item, i) => (
                   <span key={item.id} className="flex items-center gap-1 shrink-0">
                     <ChevronRight size={14} className="text-[var(--color-text-muted)]" />
                     <button onClick={() => navigateBreadcrumb(i)}
                       className={`px-2 py-0.5 rounded transition whitespace-nowrap ${
-                        i === breadcrumb.length - 1 ? 'bg-indigo-100 text-[var(--color-primary)] font-medium' : 'text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-indigo-50'
+                        i === breadcrumb.length - 1 ? 'bg-teal-100 text-[var(--color-primary-dark)] font-medium' : 'text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-teal-50'
                       }`}>{item.code}</button>
                   </span>
                 ))}
               </nav>
             )}
 
-            {/* 선택 성취기준 카드 — MinMax 교육 콘텐츠 박스 */}
-            <div className="bg-[var(--color-surface)] rounded-xl border-l-4 p-5 shadow-sm ring-1 ring-[var(--color-border)]"
+            {/* 선택 성취기준 카드 */}
+            <div className="bg-white rounded-xl border-l-4 p-5 shadow-sm ring-1 ring-[var(--color-border)]"
               style={{ borderLeftColor: SUBJECT_COLORS[selectedStandard.subject_group] || '#6b7280' }}>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2 flex-wrap">
@@ -331,14 +329,14 @@ export default function ExplorerPage() {
             <div className="flex items-center gap-2 flex-wrap">
               <button onClick={() => setShowFilters(!showFilters)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg border transition ${
-                  showFilters || filterSubject || filterLinkType ? 'bg-indigo-50 border-[var(--color-primary-light)] text-[var(--color-primary)]' : 'bg-[var(--color-surface)] border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-bright)]'
+                  showFilters || filterSubject || filterLinkType ? 'bg-teal-50 border-[var(--color-primary-light)] text-[var(--color-primary)]' : 'bg-white border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-dim)]'
                 }`}><Filter size={14} />필터{(filterSubject || filterLinkType) && <span className="w-2 h-2 bg-[var(--color-primary)] rounded-full" />}</button>
-              <button onClick={() => setExpandedTypes(new Set(typeOrder))} className="px-3 py-1.5 text-xs bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-secondary)] rounded-lg hover:bg-[var(--color-surface-bright)] transition">모두 펼치기</button>
-              <button onClick={() => setExpandedTypes(new Set())} className="px-3 py-1.5 text-xs bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-secondary)] rounded-lg hover:bg-[var(--color-surface-bright)] transition">모두 접기</button>
+              <button onClick={() => setExpandedTypes(new Set(typeOrder))} className="px-3 py-1.5 text-xs bg-white border border-[var(--color-border)] text-[var(--color-text-secondary)] rounded-lg hover:bg-[var(--color-surface-dim)] transition">모두 펼치기</button>
+              <button onClick={() => setExpandedTypes(new Set())} className="px-3 py-1.5 text-xs bg-white border border-[var(--color-border)] text-[var(--color-text-secondary)] rounded-lg hover:bg-[var(--color-surface-dim)] transition">모두 접기</button>
             </div>
 
             {showFilters && (
-              <div className="bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] p-4 space-y-3 shadow-sm">
+              <div className="bg-white rounded-xl border border-[var(--color-border)] p-4 space-y-3 shadow-sm">
                 <div>
                   <label className="text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wide mb-1.5 block">교과 필터</label>
                   <div className="flex flex-wrap gap-1.5">
@@ -380,7 +378,7 @@ export default function ExplorerPage() {
                 for (const item of items) { const sg = item.neighbor.subject_group || '기타'; if (!bySubject[sg]) bySubject[sg] = []; bySubject[sg].push(item) }
 
                 return (
-                  <div key={type} className="bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] shadow-sm overflow-hidden">
+                  <div key={type} className="bg-white rounded-xl border border-[var(--color-border)] shadow-sm overflow-hidden">
                     <button onClick={() => toggleType(type)} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[var(--color-surface-dim)] transition text-left">
                       <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: LINK_TYPE_COLORS[type] }} />
                       <span className="font-medium text-[var(--color-text-primary)] flex-1">{LINK_TYPE_LABELS[type] || type}</span>
@@ -400,7 +398,7 @@ export default function ExplorerPage() {
                             )}
                             {subItems.map(({ link, neighbor }) => (
                               <button key={neighbor.id} onClick={() => selectStandard(neighbor)}
-                                className="w-full flex items-start gap-3 px-4 py-3 hover:bg-indigo-50 transition text-left border-b border-[var(--color-surface-dim)] last:border-0 group">
+                                className="w-full flex items-start gap-3 px-4 py-3 hover:bg-teal-50 transition text-left border-b border-[var(--color-surface-dim)] last:border-0 group">
                                 <span className="w-1 self-stretch rounded-full shrink-0 mt-1" style={{ backgroundColor: SUBJECT_COLORS[neighbor.subject_group] || '#6b7280' }} />
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center gap-2 mb-0.5 flex-wrap">
@@ -412,7 +410,7 @@ export default function ExplorerPage() {
                                   <p className="text-sm text-[var(--color-text-secondary)] line-clamp-2 leading-relaxed">{neighbor.content}</p>
                                   {link.rationale && (
                                     <p className="text-xs text-[var(--color-accent)] mt-1 flex items-start gap-1">
-                                      <span className="shrink-0">💡</span><span className="line-clamp-2">{link.rationale}</span>
+                                      <span className="shrink-0">*</span><span className="line-clamp-2">{link.rationale}</span>
                                     </p>
                                   )}
                                 </div>
@@ -429,29 +427,35 @@ export default function ExplorerPage() {
             </div>
 
             {totalConnections === 0 && (
-              <div className="text-center py-8 bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)]">
+              <div className="text-center py-8 bg-white rounded-xl border border-[var(--color-border)]">
                 <Link2 size={32} className="mx-auto mb-2 text-[var(--color-text-muted)]" />
                 <p className="text-[var(--color-text-muted)]">{filterSubject || filterLinkType ? '필터 조건에 맞는 연결이 없습니다' : '이 성취기준에 연결된 항목이 없습니다'}</p>
               </div>
             )}
 
-            {/* AI 내러티브 — MinMax 교육 콘텐츠 박스 */}
+            {/* AI 내러티브 — 프리미엄 디자인 */}
             {totalConnections > 0 && (
-              <div className="bg-[var(--color-surface)] rounded-xl border-l-4 border-l-[var(--color-primary-light)] border border-[var(--color-border)] shadow-sm overflow-hidden">
+              <div className="bg-white rounded-xl border border-[var(--color-border)] shadow-sm overflow-hidden">
                 {!showNarrative ? (
                   <button onClick={generateNarrative} disabled={narrativeLoading}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-gradient-to-r from-indigo-50 to-violet-50 hover:from-indigo-100 hover:to-violet-100 transition text-sm font-medium text-[var(--color-primary)]">
-                    <Sparkles size={16} /> AI 융합 수업 내러티브 생성
+                    className="w-full flex items-center justify-center gap-2.5 px-4 py-4 hover:bg-teal-50 transition text-sm font-semibold text-[var(--color-primary)] group">
+                    <div className="w-7 h-7 rounded-md bg-teal-100 flex items-center justify-center group-hover:bg-teal-200 transition">
+                      <Sparkles size={14} className="text-[var(--color-primary)]" />
+                    </div>
+                    AI 융합 수업 내러티브 생성
                   </button>
                 ) : (
                   <div>
-                    <div className="flex items-center justify-between px-4 py-2.5 bg-gradient-to-r from-indigo-50 to-violet-50 border-b border-[var(--color-border)]">
-                      <div className="flex items-center gap-2 text-sm font-medium text-[var(--color-primary)]">
-                        <Sparkles size={16} /> AI 융합 수업 내러티브
-                        {narrativeForCode && <span className="text-xs text-[var(--color-primary-light)] font-normal">({narrativeForCode})</span>}
+                    <div className="flex items-center justify-between px-5 py-3 bg-[var(--color-surface-dim)] border-b border-[var(--color-border)]">
+                      <div className="flex items-center gap-2.5 text-sm font-semibold text-[var(--color-primary)]">
+                        <div className="w-6 h-6 rounded-md bg-teal-100 flex items-center justify-center">
+                          <Sparkles size={12} className="text-[var(--color-primary)]" />
+                        </div>
+                        AI 융합 수업 내러티브
+                        {narrativeForCode && <span className="text-xs text-[var(--color-text-muted)] font-normal">({narrativeForCode})</span>}
                       </div>
                       <div className="flex items-center gap-1">
-                        {!narrativeLoading && <button onClick={generateNarrative} className="p-1 text-[var(--color-primary-light)] hover:text-[var(--color-primary)] hover:bg-indigo-100 rounded transition" title="다시 생성"><RotateCcw size={14} /></button>}
+                        {!narrativeLoading && <button onClick={generateNarrative} className="p-1 text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-teal-100 rounded transition" title="다시 생성"><RotateCcw size={14} /></button>}
                         <button onClick={() => setShowNarrative(false)} className="p-1 text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-bright)] rounded transition" title="닫기"><X size={14} /></button>
                       </div>
                     </div>
