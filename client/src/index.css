@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── EduForge MinMax 디자인 토큰 ── */
+
+  /* 브랜드 */
+  --color-primary: #4f46e5;
+  --color-primary-light: #818cf8;
+  --color-primary-dark: #3730a3;
+  --color-accent: #f59e0b;
+  --color-accent-light: #fbbf24;
+
+  /* 표면 */
+  --color-surface: #ffffff;
+  --color-surface-dim: #f8fafc;
+  --color-surface-bright: #f1f5f9;
+  --color-border: #e2e8f0;
+
+  /* 텍스트 */
+  --color-text-primary: #1e293b;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94a3b8;
+
+  /* 의미 색상 */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+
+  /* 교과 색상 */
+  --color-sci: #22c55e;
+  --color-math: #3b82f6;
+  --color-kor: #ef4444;
+  --color-soc: #eab308;
+  --color-tech: #a855f7;
+  --color-info-subj: #06b6d4;
+  --color-art: #ec4899;
+  --color-pe: #84cc16;
+  --color-music: #8b5cf6;
+  --color-eng: #6366f1;
+
+  /* 연결 유형 색상 */
+  --color-link-cross: #f59e0b;
+  --color-link-same: #3b82f6;
+  --color-link-prereq: #ef4444;
+  --color-link-apply: #22c55e;
+  --color-link-extend: #a855f7;
+}
+
+/* 기본 타이포그래피 — MinMax 원칙 */
+body {
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-dim);
+}
+
+/* 교육 콘텐츠 가독성 */
+.edu-content {
+  font-size: 17px;
+  line-height: 1.85;
+  max-width: 48rem;
+}
+
+/* 스크롤바 */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-text-muted); border-radius: 3px; }
+
+/* 인쇄 */
+@media print {
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .print-hidden { display: none !important; }
+}
