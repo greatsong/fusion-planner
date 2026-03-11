@@ -26,6 +26,30 @@ const CATEGORY_STYLES = {
 // 교과군 정렬 순서
 const GROUP_ORDER = ['국어', '수학', '영어', '사회', '과학', '도덕', '정보', '기술·가정', '실과(기술·가정)/정보', '실과', '체육', '음악', '미술', '제2외국어', '한문']
 
+// 고등학교 공통과목 (2022 개정 교육과정) — 데이터에 없는 과목 보충
+const HS_COMMON_SUBJECTS = [
+  { subject: '공통국어1', subjectGroup: '국어', category: '공통' },
+  { subject: '공통국어2', subjectGroup: '국어', category: '공통' },
+  { subject: '공통수학1', subjectGroup: '수학', category: '공통' },
+  { subject: '공통수학2', subjectGroup: '수학', category: '공통' },
+  { subject: '공통영어1', subjectGroup: '영어', category: '공통' },
+  { subject: '공통영어2', subjectGroup: '영어', category: '공통' },
+  { subject: '한국사1', subjectGroup: '사회', category: '공통' },
+  { subject: '한국사2', subjectGroup: '사회', category: '공통' },
+  { subject: '통합사회1', subjectGroup: '사회', category: '공통' },
+  { subject: '통합사회2', subjectGroup: '사회', category: '공통' },
+  { subject: '통합과학1', subjectGroup: '과학', category: '공통' },
+  { subject: '통합과학2', subjectGroup: '과학', category: '공통' },
+  { subject: '과학탐구실험1', subjectGroup: '과학', category: '공통' },
+  { subject: '과학탐구실험2', subjectGroup: '과학', category: '공통' },
+  { subject: '체육1', subjectGroup: '체육', category: '공통' },
+  { subject: '체육2', subjectGroup: '체육', category: '공통' },
+  { subject: '음악', subjectGroup: '음악', category: '공통' },
+  { subject: '미술', subjectGroup: '미술', category: '공통' },
+  { subject: '정보', subjectGroup: '정보', category: '공통' },
+  { subject: '기술·가정', subjectGroup: '기술·가정', category: '공통' },
+]
+
 export default function SubjectMapPage() {
   const navigate = useNavigate()
   const [allStandards, setAllStandards] = useState([])
@@ -77,7 +101,7 @@ export default function SubjectMapPage() {
       const subjectMap = map.get(group)
       const subj = s.subject || group
       if (!subjectMap.has(subj)) {
-        subjectMap.set(subj, { subject: subj, count: 0, categories: new Set(), standards: [] })
+        subjectMap.set(subj, { subject: subj, count: 0, categories: new Set(), standards: [], isPlaceholder: false })
       }
       const entry = subjectMap.get(subj)
       entry.count++
@@ -91,7 +115,25 @@ export default function SubjectMapPage() {
       }
     }
 
-    // 정렬
+    // 고등학교일 때 공통과목 보충 (데이터에 없는 과목)
+    if (activeSchoolLevel === '고등학교') {
+      for (const cs of HS_COMMON_SUBJECTS) {
+        const group = cs.subjectGroup
+        if (!map.has(group)) map.set(group, new Map())
+        const subjectMap = map.get(group)
+        if (!subjectMap.has(cs.subject)) {
+          subjectMap.set(cs.subject, {
+            subject: cs.subject,
+            count: 0,
+            categories: new Set([cs.category]),
+            standards: [],
+            isPlaceholder: true,
+          })
+        }
+      }
+    }
+
+    // 정렬 — 공통과목이 각 그룹 맨 위에 오도록
     const result = []
     const sortedGroups = [...map.keys()].sort((a, b) => {
       const ia = GROUP_ORDER.indexOf(a), ib = GROUP_ORDER.indexOf(b)
@@ -99,7 +141,13 @@ export default function SubjectMapPage() {
     })
 
     for (const group of sortedGroups) {
-      const subjects = [...map.get(group).values()].sort((a, b) => b.count - a.count)
+      const subjects = [...map.get(group).values()].sort((a, b) => {
+        // 공통과목 먼저, 그 다음 성취기준 수 내림차순
+        const aIsCommon = a.categories.has('공통') ? 0 : 1
+        const bIsCommon = b.categories.has('공통') ? 0 : 1
+        if (aIsCommon !== bIsCommon) return aIsCommon - bIsCommon
+        return b.count - a.count
+      })
       const totalCount = subjects.reduce((sum, s) => sum + s.count, 0)
       result.push({ group, totalCount, subjects })
     }
@@ -165,7 +213,7 @@ export default function SubjectMapPage() {
 
     // 선택 과목 데이터 구성
     const subjectData = []
-    const subjectCodeMap = new Map() // subject → codes
+    const subjectCodeMap = new Map() // subject → standards[]
     for (const s of allStandards) {
       if (!selectedSubjects.has(s.subject)) continue
       if (!subjectCodeMap.has(s.subject)) subjectCodeMap.set(s.subject, [])
@@ -184,7 +232,6 @@ export default function SubjectMapPage() {
           samples.push({ code: st.code, content: st.content, area: st.area || '' })
         }
       }
-      // 부족하면 추가
       for (const st of standards) {
         if (samples.length >= 5) break
         if (!samples.find(s => s.code === st.code)) {
@@ -199,6 +246,21 @@ export default function SubjectMapPage() {
         standardsCount: standards.length,
         sampleStandards: samples,
       })
+    }
+
+    // 공통과목(placeholder)은 성취기준 데이터 없이 과목명만 전달
+    for (const subj of selectedSubjects) {
+      if (subjectCodeMap.has(subj)) continue // 이미 처리됨
+      const hsCommon = HS_COMMON_SUBJECTS.find(c => c.subject === subj)
+      if (hsCommon) {
+        subjectData.push({
+          subject: subj,
+          subjectGroup: hsCommon.subjectGroup,
+          curriculumCategory: hsCommon.category,
+          standardsCount: 0,
+          sampleStandards: [],
+        })
+      }
     }
 
     // 교차 링크 수집
@@ -358,7 +420,7 @@ export default function SubjectMapPage() {
 
                 {/* 과목 리스트 */}
                 <div className="p-2">
-                  {visibleSubjects.map(({ subject, count, categories }) => {
+                  {visibleSubjects.map(({ subject, count, categories, isPlaceholder }) => {
                     const isSelected = selectedSubjects.has(subject)
                     const catArr = [...categories]
                     const mainCat = catArr[0] || ''
@@ -385,7 +447,9 @@ export default function SubjectMapPage() {
 
                         {/* 과목명 */}
                         <span className={`text-xs flex-1 truncate ${
-                          isSelected ? 'font-semibold text-[var(--color-primary-dark)]' : 'text-[var(--color-text-primary)]'
+                          isSelected ? 'font-semibold text-[var(--color-primary-dark)]'
+                            : isPlaceholder ? 'text-[var(--color-text-secondary)]'
+                            : 'text-[var(--color-text-primary)]'
                         }`}>
                           {subject}
                         </span>
@@ -400,7 +464,7 @@ export default function SubjectMapPage() {
 
                         {/* 성취기준 수 */}
                         <span className="text-[10px] tabular-nums text-[var(--color-text-muted)] shrink-0 w-6 text-right">
-                          {count}
+                          {isPlaceholder ? '-' : count}
                         </span>
                       </button>
                     )
