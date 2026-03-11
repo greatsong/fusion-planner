@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
 const ExplorerPage = lazy(() => import('./pages/ExplorerPage'))
 const MatrixPage = lazy(() => import('./pages/MatrixPage'))
+const SubjectMapPage = lazy(() => import('./pages/SubjectMapPage'))
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         <Route path="/" element={<DashboardPage />} />
         <Route path="/explorer" element={<ExplorerPage />} />
         <Route path="/matrix" element={<MatrixPage />} />
+        <Route path="/subject-map" element={<SubjectMapPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BookOpen, Grid3X3, Search, ArrowRight, Link2, Layers, BarChart3 } from 'lucide-react'
+import { BookOpen, Grid3X3, Search, ArrowRight, Link2, Layers, BarChart3, Map } from 'lucide-react'
 import { apiGet } from '../lib/api'
 
 export default function DashboardPage() {
@@ -50,6 +50,17 @@ export default function DashboardPage() {
       badgeText: '#ea580c',
       borderColor: '#f97316',
     },
+    {
+      icon: Map,
+      title: '교과 지도',
+      description: '교과군별 선택과목 위계를 한눈에 보고, AI가 융합 수업 소재를 추천합니다.',
+      path: '/subject-map',
+      color: '#8b5cf6',
+      badge: 'AI 추천',
+      badgeBg: '#f5f3ff',
+      badgeText: '#7c3aed',
+      borderColor: '#8b5cf6',
+    },
   ]
 
   return (
@@ -97,7 +108,7 @@ export default function DashboardPage() {
 
       {/* 도구 카드 */}
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {tools.map(tool => (
             <button
               key={tool.path}
