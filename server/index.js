@@ -9,13 +9,14 @@ import { standardsRouter } from './routes/standards.js'
 initStore()
 
 const app = express()
-const PORT = 4016
+const PORT = process.env.PORT || 4016
 
 app.use(helmet())
 app.use(cors({
   origin: (origin, callback) => {
-    const isLocal = !origin || origin.includes('localhost') || origin.endsWith('.vercel.app')
-    callback(null, isLocal)
+    const allowed = !origin || origin.includes('localhost') ||
+      origin.endsWith('.vercel.app') || origin.endsWith('.up.railway.app')
+    callback(null, allowed)
   },
 }))
 app.use(express.json({ limit: '1mb' }))
