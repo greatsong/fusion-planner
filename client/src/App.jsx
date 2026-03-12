@@ -1,19 +1,17 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 
-const DashboardPage = lazy(() => import('./pages/DashboardPage'))
-const ExplorerPage = lazy(() => import('./pages/ExplorerPage'))
+const SearchPage = lazy(() => import('./pages/SearchPage'))
 const MatrixPage = lazy(() => import('./pages/MatrixPage'))
-const SubjectMapPage = lazy(() => import('./pages/SubjectMapPage'))
+const GuidePage = lazy(() => import('./pages/GuidePage'))
 
 export default function App() {
   return (
     <Suspense fallback={null}>
       <Routes>
-        <Route path="/" element={<DashboardPage />} />
-        <Route path="/explorer" element={<ExplorerPage />} />
+        <Route path="/" element={<SearchPage />} />
         <Route path="/matrix" element={<MatrixPage />} />
-        <Route path="/subject-map" element={<SubjectMapPage />} />
+        <Route path="/guide" element={<GuidePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>

@@ -8,13 +8,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { apiGet, API_BASE } from '../lib/api'
 
-const SUBJECT_COLORS = {
-  '과학': '#22c55e', '수학': '#3b82f6', '국어': '#ef4444',
-  '사회': '#eab308', '도덕': '#f97316', '기술·가정': '#a855f7',
-  '정보': '#06b6d4', '실과(기술·가정)/정보': '#a855f7', '실과': '#14b8a6',
-  '미술': '#ec4899', '체육': '#84cc16', '음악': '#8b5cf6',
-  '영어': '#6366f1', '제2외국어': '#0891b2', '한문': '#14b8a6',
-}
+import { SUBJECT_COLORS, sortByGroupOrder } from '../../../shared/constants.js'
 
 const LINK_TYPE_COLORS = {
   cross_subject: '#f59e0b', same_concept: '#3b82f6', prerequisite: '#ef4444',
@@ -68,7 +62,7 @@ export default function ExplorerPage() {
   }, []) // eslint-disable-line
 
   const subjectGroups = useMemo(() => {
-    return [...new Set(allStandards.map(s => s.subject_group).filter(Boolean))].sort()
+    return [...new Set(allStandards.map(s => s.subject_group).filter(Boolean))].sort(sortByGroupOrder)
   }, [allStandards])
 
   useEffect(() => {

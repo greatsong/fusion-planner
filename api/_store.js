@@ -5,6 +5,7 @@
 import crypto from 'crypto'
 import { ALL_STANDARDS } from '../server/data/standards.js'
 import { SOCIAL_STANDARDS } from '../server/data/standards_social.js'
+import { COMMON_STANDARDS } from '../server/data/standards_common.js'
 import { GENERATED_LINKS } from '../server/data/generatedLinks.js'
 
 let initialized = false
@@ -19,7 +20,7 @@ function ensureInit() {
 
   const seenCodes = new Set()
   const socialFixed = SOCIAL_STANDARDS.map(s => ({ ...s, subject_group: '사회' }))
-  const mergedStandards = [...ALL_STANDARDS, ...socialFixed]
+  const mergedStandards = [...ALL_STANDARDS, ...socialFixed, ...COMMON_STANDARDS]
 
   for (const s of mergedStandards) {
     if (seenCodes.has(s.code)) continue

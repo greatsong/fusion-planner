@@ -2,17 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "fusion-planner-server",
-      "runtimeExecutable": "node",
-      "runtimeArgs": ["server/index.js"],
-      "port": 4016,
-      "cwd": "/Users/greatsong/greatsong-project/fusion-planner",
-      "env": {
-        "DOTENV_CONFIG_PATH": "/Users/greatsong/greatsong-project/fusion-planner/server/.env"
-      }
-    },
-    {
-      "name": "fusion-planner-client",
+      "name": "dev",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["vite", "--port", "4015"],
       "port": 4015,

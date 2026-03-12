@@ -5,6 +5,7 @@
 import crypto from 'crypto'
 import { ALL_STANDARDS } from '../data/standards.js'
 import { SOCIAL_STANDARDS } from '../data/standards_social.js'
+import { COMMON_STANDARDS } from '../data/standards_common.js'
 import { GENERATED_LINKS } from '../data/generatedLinks.js'
 
 function uuid() { return crypto.randomUUID() }
@@ -16,7 +17,7 @@ export function initStore() {
   // 성취기준 로드 (중복 코드 제거 + 사회 데이터 통합)
   const seenCodes = new Set()
   const socialFixed = SOCIAL_STANDARDS.map(s => ({ ...s, subject_group: '사회' }))
-  const mergedStandards = [...ALL_STANDARDS, ...socialFixed]
+  const mergedStandards = [...ALL_STANDARDS, ...socialFixed, ...COMMON_STANDARDS]
 
   for (const s of mergedStandards) {
     if (seenCodes.has(s.code)) continue

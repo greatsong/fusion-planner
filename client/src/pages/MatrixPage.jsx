@@ -3,13 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Grid3X3, Printer, Download, BookOpen, X, ChevronRight } from 'lucide-react'
 import { apiGet } from '../lib/api'
 
-const SUBJECT_COLORS = {
-  '과학': '#22c55e', '수학': '#3b82f6', '국어': '#ef4444',
-  '사회': '#eab308', '도덕': '#f97316', '기술·가정': '#a855f7',
-  '정보': '#06b6d4', '실과(기술·가정)/정보': '#a855f7', '실과': '#14b8a6',
-  '미술': '#ec4899', '체육': '#84cc16', '음악': '#8b5cf6',
-  '영어': '#6366f1', '제2외국어': '#0891b2', '한문': '#14b8a6',
-}
+import { SUBJECT_COLORS, sortByGroupOrder } from '../../../shared/constants.js'
 
 const LINK_TYPE_LABELS = {
   cross_subject: '교과연계', same_concept: '동일개념', prerequisite: '선수학습',
@@ -71,7 +65,7 @@ export default function MatrixPage() {
     return links
   }, [allLinks, filteredStandards, filterLinkType])
 
-  const subjectGroups = useMemo(() => [...new Set(filteredStandards.map(s => s.subject_group).filter(Boolean))].sort(), [filteredStandards])
+  const subjectGroups = useMemo(() => [...new Set(filteredStandards.map(s => s.subject_group).filter(Boolean))].sort(sortByGroupOrder), [filteredStandards])
 
   const subjectCounts = useMemo(() => {
     const counts = {}
