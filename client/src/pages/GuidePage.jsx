@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 import {
   Sparkles, Search, MousePointerClick, ShoppingBasket, Bot,
   ArrowRight, ChevronRight, BookOpen, Link2, Zap, Grid3x3,
-  HelpCircle, Lightbulb, ArrowLeft
+  HelpCircle, Lightbulb, Wand2, Brain, Filter, Copy, Send,
+  MessageSquare, BarChart3
 } from 'lucide-react'
 
 const STEPS = [
@@ -15,12 +16,13 @@ const STEPS = [
     icon: Search,
     color: 'blue',
     title: '검색하기',
-    subtitle: '자연어로 수업 주제를 검색합니다',
-    description: '검색창에 관심 있는 수업 주제를 자연어로 입력하세요. 예를 들어 "인공지능과 윤리", "기후변화와 환경", "데이터 분석" 등 자유롭게 검색할 수 있습니다.',
+    subtitle: '자연어로 수업 주제를 의미 검색합니다',
+    description: '검색창에 관심 있는 수업 주제를 자연어로 입력하세요. AI 벡터 검색이 단어 일치가 아닌 의미(맥락)를 이해하여, 직접적으로 언급하지 않은 관련 성취기준까지 찾아줍니다.',
     tips: [
-      '추천 검색어를 클릭하면 바로 검색됩니다',
-      '학교급(초/중/고)과 교과군 필터로 범위를 좁힐 수 있어요',
-      '검색 결과는 교과군별로 묶여 관련도 순으로 표시됩니다',
+      '🔮 벡터 검색 — AI가 의미를 분석하여 관련 성취기준을 찾습니다',
+      '결과는 관련도가 높은 교과군이 자동으로 맨 위에 표시됩니다',
+      '학교급(초/중/고)과 교과군 필터로 검색 범위를 좁힐 수 있어요',
+      '추천 검색어를 클릭하면 바로 검색을 시작할 수 있습니다',
     ],
     visual: 'search',
   },
@@ -29,12 +31,13 @@ const STEPS = [
     icon: MousePointerClick,
     color: 'purple',
     title: '성취기준 탐색',
-    subtitle: '교과를 넘나드는 연결을 발견합니다',
-    description: '검색 결과에서 성취기준을 클릭하면 오른쪽에 상세 정보와 함께 다른 교과의 유사한 성취기준(의미 연결)이 표시됩니다.',
+    subtitle: '교과를 넘나드는 의미 연결을 발견합니다',
+    description: '검색 결과에서 성취기준을 클릭하면 오른쪽에 상세 정보가 열립니다. 해당 성취기준의 본문, 해설, 키워드를 확인하고, 벡터 유사도 기반으로 다른 교과의 관련 성취기준을 자동 발견합니다.',
     tips: [
-      '유사도 %가 높을수록 의미적으로 가까운 성취기준입니다',
+      '유사도 %가 높을수록 의미적으로 밀접한 성취기준입니다',
       '의미 연결은 같은 교과를 제외한 타교과 기준만 표시합니다',
-      '연결된 성취기준을 다시 클릭하면 그 기준의 연결도 탐색할 수 있어요',
+      '연결된 성취기준을 다시 클릭하면 꼬리에 꼬리를 무는 탐색이 가능해요',
+      '키워드, 영역, 해설까지 종합적으로 분석한 결과입니다',
     ],
     visual: 'explore',
   },
@@ -44,11 +47,12 @@ const STEPS = [
     color: 'amber',
     title: '바구니에 담기',
     subtitle: '융합할 성취기준을 모읍니다',
-    description: '마음에 드는 성취기준의 + 버튼을 눌러 융합 바구니에 담으세요. 여러 교과의 성취기준을 2개 이상 담으면 AI 융합 수업 설계가 가능합니다.',
+    description: '마음에 드는 성취기준의 "바구니에 추가" 버튼을 눌러 융합 바구니에 담으세요. 여러 교과의 성취기준을 2개 이상 담으면 AI 융합 수업 설계가 활성화됩니다.',
     tips: [
       '화면 오른쪽 아래의 바구니 아이콘에서 담은 목록을 확인하세요',
-      '2개 이상의 서로 다른 교과가 포함되어야 융합 설계가 가능합니다',
-      '바구니에서 개별 항목을 제거하거나 전체를 비울 수 있어요',
+      '2개 이상의 서로 다른 교과군이 포함되어야 융합 설계가 가능합니다',
+      '검색 결과와 의미 연결 모두에서 성취기준을 담을 수 있어요',
+      '바구니에서 개별 항목을 제거하거나 전체를 비울 수 있습니다',
     ],
     visual: 'basket',
   },
@@ -57,37 +61,73 @@ const STEPS = [
     icon: Bot,
     color: 'emerald',
     title: 'AI 융합 수업 설계',
-    subtitle: 'AI가 맞춤형 수업 설계안을 생성합니다',
-    description: '"AI 융합 수업 설계" 버튼을 클릭하면, AI가 선택한 성취기준들을 분석하여 프로젝트 기반 융합 수업 설계안을 실시간으로 생성합니다.',
+    subtitle: 'AI가 맞춤형 프로젝트 수업 설계안을 생성합니다',
+    description: '"AI 융합 수업 설계" 버튼을 클릭하면, Claude AI가 선택한 성취기준들을 종합 분석하여 프로젝트 기반 융합 수업 설계안을 실시간 스트리밍으로 생성합니다.',
     tips: [
       'AI가 프로젝트명, 수업 흐름, 차시별 계획, 평가 방법을 제안합니다',
-      '생성된 설계안은 마크다운 형식으로 복사할 수 있어요',
-      '추가 요청 메시지를 보내 설계안을 수정·보완할 수 있습니다',
+      '생성된 설계안은 복사 버튼으로 클립보드에 복사할 수 있어요',
+      '추가 요청 메시지를 보내 설계안을 수정·보완할 수 있습니다 (예: "평가 루브릭도 만들어줘")',
+      '"다시 생성" 버튼으로 새로운 버전의 설계안을 받을 수 있어요',
     ],
     visual: 'design',
   },
 ]
 
-const FAQ = [
+const FEATURES = [
   {
-    q: '검색 결과가 적거나 없을 때는?',
-    a: '더 일반적인 키워드로 검색해보세요. 필터를 해제하면 더 많은 결과를 볼 수 있습니다. 추천 검색어도 활용해보세요.',
+    icon: Brain,
+    title: '벡터 의미 검색',
+    desc: 'Voyage AI 임베딩으로 2,796개 성취기준의 의미를 512차원 벡터로 변환. 단어가 다르더라도 맥락이 비슷하면 검색됩니다.',
   },
   {
-    q: '의미 연결이 교육적으로 맞지 않는 것 같아요',
-    a: '현재 키워드 기반 검색 모드에서는 일부 부정확한 연결이 있을 수 있습니다. 벡터 검색 모드가 활성화되면 의미 기반으로 더 정확한 연결을 제공합니다.',
+    icon: Link2,
+    title: '교차 교과 연결',
+    desc: '벡터 유사도 기반으로 교과 간 의미적 연결을 실시간 계산합니다. 키워드 우연 일치가 아닌 진짜 교육적 관련성을 발견합니다.',
+  },
+  {
+    icon: Wand2,
+    title: 'AI 수업 설계',
+    desc: 'Claude AI가 선택한 성취기준을 분석하여 프로젝트 기반 융합 수업안을 생성합니다. 실시간 스트리밍으로 바로 확인하세요.',
+  },
+  {
+    icon: Filter,
+    title: '스마트 필터링',
+    desc: '학교급, 교과군 필터를 조합하여 원하는 범위의 성취기준만 검색할 수 있습니다. 결과는 관련도순으로 자동 정렬됩니다.',
+  },
+]
+
+const FAQ = [
+  {
+    q: '벡터 검색과 키워드 검색의 차이점은?',
+    a: '🔮 벡터 검색은 AI가 문장의 의미를 분석하여 관련 결과를 찾습니다. 예를 들어 "인공지능"을 검색하면 "머신러닝", "딥러닝", "데이터 분석" 등 직접 언급하지 않은 관련 기준까지 찾아냅니다. 🔍 키워드 검색은 입력한 단어가 포함된 결과만 보여줍니다. 벡터 검색이 기본이며, 벡터 데이터가 없을 때만 키워드로 대체됩니다.',
+  },
+  {
+    q: '유사도 퍼센트(%)는 무엇을 의미하나요?',
+    a: '성취기준 간의 의미적 유사도를 0~100%로 표시합니다. 벡터 공간에서 두 성취기준이 얼마나 가까운지(코사인 유사도)를 나타냅니다. 70% 이상이면 높은 연관성, 50~70%이면 중간 수준, 50% 이하면 약한 연관성으로 볼 수 있습니다.',
+  },
+  {
+    q: '검색 결과가 적거나 없을 때는?',
+    a: '더 일반적인 키워드로 검색해보세요. 예를 들어 "CRISPR 유전자 편집"보다 "유전자와 생명윤리"가 더 많은 결과를 찾습니다. 학교급이나 교과군 필터를 해제하면 더 넓은 범위에서 검색됩니다. 추천 검색어도 활용해보세요.',
   },
   {
     q: 'AI 설계 버튼이 비활성화되어 있어요',
-    a: '2개 이상의 서로 다른 교과군에서 성취기준을 바구니에 담아야 AI 설계가 가능합니다. 같은 교과만 담으면 융합 수업으로 볼 수 없어 비활성 상태입니다.',
+    a: '2개 이상의 서로 다른 교과군에서 성취기준을 바구니에 담아야 AI 설계가 가능합니다. 같은 교과만 담으면 융합 수업으로 볼 수 없어 비활성 상태입니다. 검색 결과나 의미 연결에서 다양한 교과의 성취기준을 추가해보세요.',
   },
   {
     q: '어떤 교과가 포함되어 있나요?',
     a: '2022 개정 교육과정의 초·중·고 전 교과 성취기준 2,796개가 포함되어 있습니다. 국어, 수학, 영어, 사회, 과학, 정보, 도덕, 체육, 음악, 미술, 기술·가정, 제2외국어, 한문, 교양 등 14개 교과군을 다룹니다.',
   },
   {
+    q: '교과군 정렬 기준은 무엇인가요?',
+    a: '검색 결과에서 교과군은 관련도 순으로 자동 정렬됩니다. 각 교과군의 상위 3개 성취기준의 평균 유사도를 계산하여, 가장 관련성 높은 교과가 맨 위에 표시됩니다. 단일 고유사도 항목보다 여러 관련 항목이 있는 교과가 우선됩니다.',
+  },
+  {
+    q: 'AI가 생성한 수업 설계안을 수정할 수 있나요?',
+    a: '네! AI 설계 패널 하단의 입력창에 추가 요청을 보낼 수 있습니다. "평가 루브릭도 추가해줘", "수업 시간을 10차시로 늘려줘", "초등학생 수준으로 낮춰줘" 등 자유롭게 요청하세요. "다시 생성" 버튼으로 처음부터 새로 만들 수도 있습니다.',
+  },
+  {
     q: '매트릭스 보기는 무엇인가요?',
-    a: '상단의 "매트릭스" 링크를 클릭하면 교과군 간 연결 관계를 히트맵으로 시각화한 화면을 볼 수 있습니다. 어떤 교과들이 서로 연결 가능성이 높은지 한눈에 파악할 수 있어요.',
+    a: '상단의 "매트릭스" 링크를 클릭하면 교과군 간 연결 관계를 히트맵으로 시각화한 화면을 볼 수 있습니다. 어떤 교과들이 서로 융합 가능성이 높은지 한눈에 파악할 수 있어요.',
   },
 ]
 
@@ -102,10 +142,14 @@ function StepVisual({ type }) {
           </div>
           <div className="px-3 py-2 bg-blue-600 rounded-lg text-white text-xs font-medium">검색</div>
         </div>
+        <div className="flex items-center gap-1.5 mb-2">
+          <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">🔮 벡터 검색</span>
+          <span className="text-xs text-gray-400">0.3초</span>
+        </div>
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-            <span className="text-xs text-gray-600">정보</span>
+            <span className="text-xs text-gray-600 font-medium">정보</span>
             <span className="text-xs text-gray-400">5건</span>
             <span className="ml-auto text-xs text-emerald-500 font-medium">89%</span>
           </div>
@@ -116,35 +160,46 @@ function StepVisual({ type }) {
             <span className="ml-auto text-xs text-emerald-500 font-medium">74%</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
             <span className="text-xs text-gray-600">도덕</span>
             <span className="text-xs text-gray-400">2건</span>
             <span className="ml-auto text-xs text-emerald-500 font-medium">68%</span>
           </div>
         </div>
+        <p className="text-xs text-gray-300 mt-2 text-center">↑ 관련도순 자동 정렬</p>
       </div>
     )
   }
   if (type === 'explore') {
     return (
       <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-        <div className="flex items-center gap-1.5 mb-2">
+        <div className="flex items-center gap-1.5 mb-1">
+          <span className="inline-block px-1.5 py-0.5 rounded text-xs text-white bg-red-500">과학</span>
           <code className="text-xs font-mono text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">[9과02-01]</code>
-          <span className="text-xs text-gray-400">과학</span>
         </div>
         <p className="text-xs text-gray-600 mb-3">기후 변화의 원인과 영향을 분석하고...</p>
-        <div className="border-t border-gray-100 pt-2">
-          <p className="text-xs text-gray-400 mb-2 flex items-center gap-1"><Link2 size={12} /> 의미 연결</p>
+        <div className="flex items-center gap-1.5 mb-1">
+          <span className="text-xs text-gray-400">키워드:</span>
+          <span className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">기후</span>
+          <span className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">환경</span>
+        </div>
+        <div className="border-t border-gray-100 pt-2 mt-2">
+          <p className="text-xs text-gray-400 mb-2 flex items-center gap-1"><Link2 size={12} /> 의미 연결 (🔮 벡터 유사도)</p>
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 text-xs">
               <div className="w-2 h-2 rounded-full bg-orange-400" />
               <span className="text-gray-600">사회 [9사01-03]</span>
-              <span className="ml-auto text-emerald-500">81%</span>
+              <span className="ml-auto text-emerald-500 font-medium">81%</span>
             </div>
             <div className="flex items-center gap-2 text-xs">
               <div className="w-2 h-2 rounded-full bg-emerald-500" />
               <span className="text-gray-600">도덕 [9도02-05]</span>
-              <span className="ml-auto text-emerald-500">76%</span>
+              <span className="ml-auto text-emerald-500 font-medium">76%</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs">
+              <div className="w-2 h-2 rounded-full bg-blue-500" />
+              <span className="text-gray-600">정보 [9정01-02]</span>
+              <span className="ml-auto text-amber-500 font-medium">63%</span>
             </div>
           </div>
         </div>
@@ -172,8 +227,9 @@ function StepVisual({ type }) {
             </div>
           ))}
         </div>
-        <div className="mt-3 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white text-xs text-center font-medium">
-          AI 융합 수업 설계
+        <p className="text-xs text-emerald-600 mt-2">✓ 3개 교과 — AI 설계 가능!</p>
+        <div className="mt-3 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg text-white text-xs text-center font-medium flex items-center justify-center gap-1.5">
+          <Sparkles size={14} /> AI 융합 수업 설계
         </div>
       </div>
     )
@@ -184,14 +240,29 @@ function StepVisual({ type }) {
         <div className="flex items-center gap-2 mb-2">
           <Bot size={16} className="text-purple-600" />
           <span className="text-sm font-medium text-gray-700">AI 설계 결과</span>
+          <div className="ml-auto flex gap-1">
+            <div className="w-6 h-6 rounded bg-gray-100 flex items-center justify-center">
+              <Copy size={10} className="text-gray-400" />
+            </div>
+          </div>
         </div>
         <div className="space-y-1.5 text-xs text-gray-600">
           <p className="font-semibold text-gray-700">🌍 프로젝트: "우리 동네 기후 리포트"</p>
-          <p className="text-gray-400">관련 성취기준: 과학, 사회, 도덕</p>
+          <p className="text-gray-400">관련: 과학 · 사회 · 도덕</p>
           <div className="border-l-2 border-purple-300 pl-2 space-y-1 mt-2">
             <p>1~2차시: 기후 데이터 조사 및 분석</p>
             <p>3~4차시: 사회적 영향 보고서 작성</p>
             <p>5차시: 윤리적 대응 방안 토론</p>
+          </div>
+        </div>
+        <div className="mt-3 pt-2 border-t border-gray-100">
+          <div className="flex items-center gap-2">
+            <div className="flex-1 h-7 bg-gray-50 border border-gray-200 rounded-lg flex items-center px-2">
+              <span className="text-xs text-gray-300">평가 루브릭도 만들어줘</span>
+            </div>
+            <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center">
+              <Send size={10} className="text-white" />
+            </div>
           </div>
         </div>
       </div>
@@ -238,14 +309,70 @@ export default function GuidePage() {
             검색에서 AI 융합 수업 설계까지
           </h1>
           <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-            2,796개 성취기준을 의미 기반으로 탐색하고, AI의 도움을 받아
-            교과를 넘나드는 융합 수업을 설계하세요.
+            2,796개 성취기준을 AI 벡터 의미 검색으로 탐색하고,
+            교과를 넘나드는 융합 수업을 AI와 함께 설계하세요.
           </p>
           <Link to="/"
             className="inline-flex items-center gap-2 mt-6 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium text-sm hover:shadow-lg transition-shadow">
             바로 시작하기 <ArrowRight size={16} />
           </Link>
         </div>
+
+        {/* 핵심 기능 */}
+        <section className="mb-20">
+          <h2 className="text-xl font-bold text-gray-700 mb-8 text-center">핵심 기능</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            {FEATURES.map((f, i) => {
+              const Icon = f.icon
+              return (
+                <div key={i} className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <Icon size={20} className="text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-700 mb-1">{f.title}</h3>
+                      <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </section>
+
+        {/* 검색 모드 비교 */}
+        <section className="mb-20">
+          <h2 className="text-xl font-bold text-gray-700 mb-8 text-center">검색 모드 비교</h2>
+          <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+            <div className="bg-purple-50 rounded-xl border border-purple-100 p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-lg">🔮</span>
+                <h3 className="font-semibold text-purple-700">벡터 검색 (기본)</h3>
+              </div>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li className="flex items-start gap-2"><span className="text-purple-400 mt-0.5">✓</span> AI가 문장의 의미를 분석</li>
+                <li className="flex items-start gap-2"><span className="text-purple-400 mt-0.5">✓</span> 동의어·유사 개념도 찾음</li>
+                <li className="flex items-start gap-2"><span className="text-purple-400 mt-0.5">✓</span> 교육적 맥락 이해</li>
+                <li className="flex items-start gap-2"><span className="text-purple-400 mt-0.5">✓</span> 정확한 교과 간 연결</li>
+              </ul>
+              <p className="mt-3 text-xs text-purple-500">Voyage AI 512차원 임베딩 기반</p>
+            </div>
+            <div className="bg-gray-50 rounded-xl border border-gray-200 p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-lg">🔍</span>
+                <h3 className="font-semibold text-gray-600">키워드 검색 (대체)</h3>
+              </div>
+              <ul className="space-y-2 text-sm text-gray-500">
+                <li className="flex items-start gap-2"><span className="text-gray-300 mt-0.5">·</span> 입력 단어를 직접 매칭</li>
+                <li className="flex items-start gap-2"><span className="text-gray-300 mt-0.5">·</span> 정확한 단어만 검색됨</li>
+                <li className="flex items-start gap-2"><span className="text-gray-300 mt-0.5">·</span> 한국어 조사 자동 제거</li>
+                <li className="flex items-start gap-2"><span className="text-gray-300 mt-0.5">·</span> 벡터 미사용 시 자동 대체</li>
+              </ul>
+              <p className="mt-3 text-xs text-gray-400">벡터 데이터 없을 때 폴백</p>
+            </div>
+          </div>
+        </section>
 
         {/* 4단계 사용 흐름 */}
         <section className="mb-20">
@@ -301,6 +428,35 @@ export default function GuidePage() {
           </div>
         </section>
 
+        {/* 데이터 규모 */}
+        <section className="mb-20">
+          <h2 className="text-xl font-bold text-gray-700 mb-8 text-center">데이터 규모</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+            {[
+              { value: '2,796', label: '성취기준', icon: BookOpen, color: 'blue' },
+              { value: '14', label: '교과군', icon: BarChart3, color: 'purple' },
+              { value: '512', label: '벡터 차원', icon: Brain, color: 'emerald' },
+              { value: 'AI', label: '융합 설계', icon: Sparkles, color: 'amber' },
+            ].map((stat, i) => {
+              const Icon = stat.icon
+              const bg = `bg-${stat.color}-100`
+              const text = `text-${stat.color}-600`
+              return (
+                <div key={i} className="bg-white rounded-2xl p-5 border border-gray-100 text-center">
+                  <div className={`w-10 h-10 mx-auto mb-2 ${bg} rounded-xl flex items-center justify-center`}>
+                    <Icon size={20} className={text} />
+                  </div>
+                  <p className="text-2xl font-bold text-gray-700">{stat.value}</p>
+                  <p className="text-xs text-gray-400">{stat.label}</p>
+                </div>
+              )
+            })}
+          </div>
+          <p className="text-xs text-gray-400 text-center mt-4">
+            2022 개정 교육과정 · 초·중·고 전 교과 · Voyage AI voyage-3-lite 임베딩
+          </p>
+        </section>
+
         {/* 자주 묻는 질문 */}
         <section className="mb-16">
           <h2 className="text-xl font-bold text-gray-700 mb-8 text-center">자주 묻는 질문</h2>
@@ -336,7 +492,7 @@ export default function GuidePage() {
       {/* 푸터 */}
       <footer className="max-w-5xl mx-auto px-4 py-8 mt-8 border-t border-gray-100">
         <p className="text-xs text-gray-400 text-center">
-          2022 개정 교육과정 기반 · AI 융합교육 설계 도구
+          2022 개정 교육과정 기반 · AI 벡터 검색 · 융합교육 설계 도구
         </p>
       </footer>
     </div>
