@@ -50,11 +50,23 @@ function GroupSection({ group, items, color, onSelectStandard }) {
 export default function SearchResults({ grouped, totalResults, elapsed, searchMode, onSelectStandard }) {
   if (!grouped || Object.keys(grouped).length === 0) return null
 
-  // 교과군을 최고 유사도 순으로 정렬 (가장 관련 높은 교과군이 위로)
+  // 그룹 내 항목을 유사도 내림차순 정렬 + 교과군을 관련성 순으로 정렬
+  // 관련성 점수 = 상위 3개 평균 유사도 (한 건만 높은 것보다 여러 건 높은 교과가 위로)
+  const groupScore = (items) => {
+    const sorted = [...items].sort((a, b) => (b.similarity || 0) - (a.similarity || 0))
+    const top = sorted.slice(0, 3)
+    return top.reduce((sum, item) => sum + (item.similarity || 0), 0) / top.length
+  }
+
+  // 각 그룹 내 항목 정렬
+  for (const group of Object.keys(grouped)) {
+    grouped[group].sort((a, b) => (b.similarity || 0) - (a.similarity || 0))
+  }
+
   const sortedGroups = Object.keys(grouped).sort((a, b) => {
-    const maxA = Math.max(...grouped[a].map(item => item.similarity || 0))
-    const maxB = Math.max(...grouped[b].map(item => item.similarity || 0))
-    if (maxB !== maxA) return maxB - maxA
+    const scoreA = groupScore(grouped[a])
+    const scoreB = groupScore(grouped[b])
+    if (scoreB !== scoreA) return scoreB - scoreA
     return sortByGroupOrder(a, b)
   })
 
