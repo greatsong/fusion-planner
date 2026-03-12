@@ -19,7 +19,7 @@ searchRouter.post('/semantic', async (req, res) => {
     }
 
     const startTime = Date.now()
-    const results = await searchSemantic(query.trim(), {
+    const { results, mode } = await searchSemantic(query.trim(), {
       limit: Math.min(limit, 100),
       filters,
     })
@@ -45,11 +45,10 @@ searchRouter.post('/semantic', async (req, res) => {
     }
 
     const elapsed = Date.now() - startTime
-    const status = getSearchStatus()
 
     res.json({
       query: query.trim(),
-      mode: status.mode,
+      mode,
       totalResults: results.length,
       elapsed: `${elapsed}ms`,
       grouped,
@@ -84,7 +83,7 @@ searchRouter.post('/neighbors', async (req, res) => {
     }
 
     const startTime = Date.now()
-    const { standard, neighbors } = await findNeighbors(code, {
+    const { standard, neighbors, mode } = await findNeighbors(code, {
       limit: Math.min(limit, 50),
       crossSubjectOnly: cross_subject_only,
     })
@@ -94,7 +93,6 @@ searchRouter.post('/neighbors', async (req, res) => {
     }
 
     const elapsed = Date.now() - startTime
-    const status = getSearchStatus()
 
     // 교과군별 그룹핑
     const grouped = {}
@@ -113,7 +111,7 @@ searchRouter.post('/neighbors', async (req, res) => {
     }
 
     res.json({
-      mode: status.mode,
+      mode,
       elapsed: `${elapsed}ms`,
       standard: {
         code: standard.code,

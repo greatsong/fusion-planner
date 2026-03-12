@@ -137,7 +137,7 @@ export default function StandardDetail({ standard, onClose, onSelectNeighbor }) 
             })}
             {neighbors && (
               <p className="text-xs text-gray-400 text-center mt-2">
-                {neighbors.mode === 'vector' ? '🔮 벡터 유사도' : '🔍 키워드 유사도'} 기반
+                {neighbors.mode === 'hybrid' ? '🔮🔍 하이브리드 유사도' : neighbors.mode === 'vector' ? '🔮 벡터 유사도' : '🔍 키워드 유사도'} 기반
                 · {neighbors.elapsed}
               </p>
             )}

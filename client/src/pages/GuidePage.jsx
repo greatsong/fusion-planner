@@ -7,7 +7,7 @@ import {
   Sparkles, Search, MousePointerClick, ShoppingBasket, Bot,
   ArrowRight, ChevronRight, BookOpen, Link2, Zap, Grid3x3,
   HelpCircle, Lightbulb, Wand2, Brain, Filter, Copy, Send,
-  MessageSquare, BarChart3
+  MessageSquare, BarChart3, Layers
 } from 'lucide-react'
 
 const STEPS = [
@@ -16,10 +16,10 @@ const STEPS = [
     icon: Search,
     color: 'blue',
     title: '검색하기',
-    subtitle: '자연어로 수업 주제를 의미 검색합니다',
-    description: '검색창에 관심 있는 수업 주제를 자연어로 입력하세요. AI 벡터 검색이 단어 일치가 아닌 의미(맥락)를 이해하여, 직접적으로 언급하지 않은 관련 성취기준까지 찾아줍니다.',
+    subtitle: '자연어로 수업 주제를 하이브리드 검색합니다',
+    description: '검색창에 관심 있는 수업 주제를 자연어로 입력하세요. 하이브리드 검색이 AI 의미 분석(70%)과 정확한 키워드 매칭(30%)을 결합하여, 의미적으로 관련된 성취기준과 정확히 일치하는 성취기준을 모두 찾아줍니다.',
     tips: [
-      '🔮 벡터 검색 — AI가 의미를 분석하여 관련 성취기준을 찾습니다',
+      '🔮🔍 하이브리드 검색 — 벡터 의미 + 키워드 정확도를 결합합니다',
       '결과는 관련도가 높은 교과군이 자동으로 맨 위에 표시됩니다',
       '학교급(초/중/고)과 교과군 필터로 검색 범위를 좁힐 수 있어요',
       '추천 검색어를 클릭하면 바로 검색을 시작할 수 있습니다',
@@ -32,12 +32,12 @@ const STEPS = [
     color: 'purple',
     title: '성취기준 탐색',
     subtitle: '교과를 넘나드는 의미 연결을 발견합니다',
-    description: '검색 결과에서 성취기준을 클릭하면 오른쪽에 상세 정보가 열립니다. 해당 성취기준의 본문, 해설, 키워드를 확인하고, 벡터 유사도 기반으로 다른 교과의 관련 성취기준을 자동 발견합니다.',
+    description: '검색 결과에서 성취기준을 클릭하면 오른쪽에 상세 정보가 열립니다. 해당 성취기준의 본문, 해설, 키워드를 확인하고, 하이브리드 유사도 기반으로 다른 교과의 관련 성취기준을 자동 발견합니다.',
     tips: [
-      '유사도 %가 높을수록 의미적으로 밀접한 성취기준입니다',
+      '유사도 %가 높을수록 의미적+키워드 연관성이 모두 높은 성취기준입니다',
       '의미 연결은 같은 교과를 제외한 타교과 기준만 표시합니다',
       '연결된 성취기준을 다시 클릭하면 꼬리에 꼬리를 무는 탐색이 가능해요',
-      '키워드, 영역, 해설까지 종합적으로 분석한 결과입니다',
+      '벡터 의미와 키워드 매칭을 종합적으로 분석한 결과입니다',
     ],
     visual: 'explore',
   },
@@ -75,14 +75,14 @@ const STEPS = [
 
 const FEATURES = [
   {
-    icon: Brain,
-    title: '벡터 의미 검색',
-    desc: 'Voyage AI 임베딩으로 2,796개 성취기준의 의미를 512차원 벡터로 변환. 단어가 다르더라도 맥락이 비슷하면 검색됩니다.',
+    icon: Layers,
+    title: '하이브리드 검색',
+    desc: '벡터 의미 검색(70%)과 키워드 매칭(30%)을 결합합니다. 의미적으로 관련된 결과를 찾으면서도 정확한 단어 매칭을 놓치지 않습니다.',
   },
   {
     icon: Link2,
     title: '교차 교과 연결',
-    desc: '벡터 유사도 기반으로 교과 간 의미적 연결을 실시간 계산합니다. 키워드 우연 일치가 아닌 진짜 교육적 관련성을 발견합니다.',
+    desc: '하이브리드 유사도 기반으로 교과 간 의미적 연결을 실시간 계산합니다. 키워드 우연 일치가 아닌 진짜 교육적 관련성을 발견합니다.',
   },
   {
     icon: Wand2,
@@ -98,12 +98,16 @@ const FEATURES = [
 
 const FAQ = [
   {
-    q: '벡터 검색과 키워드 검색의 차이점은?',
-    a: '🔮 벡터 검색은 AI가 문장의 의미를 분석하여 관련 결과를 찾습니다. 예를 들어 "인공지능"을 검색하면 "머신러닝", "딥러닝", "데이터 분석" 등 직접 언급하지 않은 관련 기준까지 찾아냅니다. 🔍 키워드 검색은 입력한 단어가 포함된 결과만 보여줍니다. 벡터 검색이 기본이며, 벡터 데이터가 없을 때만 키워드로 대체됩니다.',
+    q: '하이브리드 검색이란 무엇인가요?',
+    a: '🔮🔍 하이브리드 검색은 두 가지 검색 방식을 결합합니다. AI 벡터 검색(70%)이 문장의 의미를 분석하여 "인공지능"을 검색하면 "머신러닝", "데이터 분석" 등 관련 개념까지 찾고, 키워드 검색(30%)이 정확히 일치하는 단어를 부스트합니다. 두 방식의 장점을 모두 활용하여 최적의 검색 결과를 제공합니다.',
+  },
+  {
+    q: '벡터 검색, 키워드 검색과 차이점은?',
+    a: '🔮 벡터 검색은 의미는 잘 잡지만 정확한 단어 매칭을 놓칠 수 있습니다. 🔍 키워드 검색은 정확한 단어를 잡지만 동의어나 유사 개념을 놓칩니다. 🔮🔍 하이브리드는 두 점수를 가중 결합하여 의미적 관련성과 정확한 매칭을 동시에 보장합니다. 벡터 데이터가 없을 때만 키워드 검색으로 자동 대체됩니다.',
   },
   {
     q: '유사도 퍼센트(%)는 무엇을 의미하나요?',
-    a: '성취기준 간의 의미적 유사도를 0~100%로 표시합니다. 벡터 공간에서 두 성취기준이 얼마나 가까운지(코사인 유사도)를 나타냅니다. 70% 이상이면 높은 연관성, 50~70%이면 중간 수준, 50% 이하면 약한 연관성으로 볼 수 있습니다.',
+    a: '성취기준 간의 종합 유사도를 0~100%로 표시합니다. 벡터 의미 유사도(70%)와 키워드 매칭 점수(30%)를 결합한 값입니다. 70% 이상이면 높은 연관성, 50~70%이면 중간 수준, 50% 이하면 약한 연관성으로 볼 수 있습니다.',
   },
   {
     q: '검색 결과가 적거나 없을 때는?',
@@ -143,7 +147,7 @@ function StepVisual({ type }) {
           <div className="px-3 py-2 bg-blue-600 rounded-lg text-white text-xs font-medium">검색</div>
         </div>
         <div className="flex items-center gap-1.5 mb-2">
-          <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">🔮 벡터 검색</span>
+          <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">🔮🔍 하이브리드</span>
           <span className="text-xs text-gray-400">0.3초</span>
         </div>
         <div className="space-y-2">
@@ -184,7 +188,7 @@ function StepVisual({ type }) {
           <span className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">환경</span>
         </div>
         <div className="border-t border-gray-100 pt-2 mt-2">
-          <p className="text-xs text-gray-400 mb-2 flex items-center gap-1"><Link2 size={12} /> 의미 연결 (🔮 벡터 유사도)</p>
+          <p className="text-xs text-gray-400 mb-2 flex items-center gap-1"><Link2 size={12} /> 의미 연결 (🔮🔍 하이브리드 유사도)</p>
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 text-xs">
               <div className="w-2 h-2 rounded-full bg-orange-400" />
@@ -309,7 +313,7 @@ export default function GuidePage() {
             검색에서 AI 융합 수업 설계까지
           </h1>
           <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-            2,796개 성취기준을 AI 벡터 의미 검색으로 탐색하고,
+            2,796개 성취기준을 하이브리드 검색(벡터 의미 + 키워드)으로 탐색하고,
             교과를 넘나드는 융합 수업을 AI와 함께 설계하세요.
           </p>
           <Link to="/"
@@ -344,32 +348,62 @@ export default function GuidePage() {
         {/* 검색 모드 비교 */}
         <section className="mb-20">
           <h2 className="text-xl font-bold text-gray-700 mb-8 text-center">검색 모드 비교</h2>
-          <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
-            <div className="bg-purple-50 rounded-xl border border-purple-100 p-5">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-lg">🔮</span>
-                <h3 className="font-semibold text-purple-700">벡터 검색 (기본)</h3>
+          <div className="space-y-4 max-w-4xl mx-auto">
+            {/* 하이브리드 (기본) — 강조 */}
+            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border-2 border-indigo-200 p-5 relative">
+              <div className="absolute -top-3 left-4 px-2 py-0.5 bg-indigo-600 text-white text-xs rounded-full font-medium">기본 모드</div>
+              <div className="flex items-center gap-2 mb-3 mt-1">
+                <span className="text-lg">🔮🔍</span>
+                <h3 className="font-semibold text-indigo-700">하이브리드 검색</h3>
               </div>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-start gap-2"><span className="text-purple-400 mt-0.5">✓</span> AI가 문장의 의미를 분석</li>
-                <li className="flex items-start gap-2"><span className="text-purple-400 mt-0.5">✓</span> 동의어·유사 개념도 찾음</li>
-                <li className="flex items-start gap-2"><span className="text-purple-400 mt-0.5">✓</span> 교육적 맥락 이해</li>
-                <li className="flex items-start gap-2"><span className="text-purple-400 mt-0.5">✓</span> 정확한 교과 간 연결</li>
-              </ul>
-              <p className="mt-3 text-xs text-purple-500">Voyage AI 512차원 임베딩 기반</p>
+              <p className="text-sm text-gray-600 mb-3">
+                벡터 의미 검색(70%)과 키워드 정확 매칭(30%)을 가중 결합합니다. 의미적으로 관련된 결과를 찾으면서도 정확한 단어 일치를 부스트하여, 두 방식의 장점을 모두 제공합니다.
+              </p>
+              <div className="flex gap-6">
+                <div>
+                  <p className="text-xs font-medium text-indigo-600 mb-1">벡터 (70%)</p>
+                  <ul className="space-y-1 text-xs text-gray-500">
+                    <li>✓ 의미/맥락 이해</li>
+                    <li>✓ 동의어·유사 개념</li>
+                  </ul>
+                </div>
+                <div className="border-l border-indigo-200" />
+                <div>
+                  <p className="text-xs font-medium text-indigo-600 mb-1">키워드 (30%)</p>
+                  <ul className="space-y-1 text-xs text-gray-500">
+                    <li>✓ 정확한 단어 매칭</li>
+                    <li>✓ 특정 용어 부스트</li>
+                  </ul>
+                </div>
+              </div>
             </div>
-            <div className="bg-gray-50 rounded-xl border border-gray-200 p-5">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-lg">🔍</span>
-                <h3 className="font-semibold text-gray-600">키워드 검색 (대체)</h3>
+
+            {/* 하위 모드 2개 */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="bg-purple-50/50 rounded-xl border border-purple-100 p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-lg">🔮</span>
+                  <h3 className="font-semibold text-purple-600 text-sm">벡터 검색</h3>
+                </div>
+                <ul className="space-y-1.5 text-xs text-gray-500">
+                  <li className="flex items-start gap-2"><span className="text-purple-400 mt-0.5">·</span> AI가 문장의 의미를 분석</li>
+                  <li className="flex items-start gap-2"><span className="text-purple-400 mt-0.5">·</span> 동의어·유사 개념도 찾음</li>
+                  <li className="flex items-start gap-2"><span className="text-purple-400 mt-0.5">·</span> Voyage AI 512차원 임베딩</li>
+                </ul>
+                <p className="mt-2 text-xs text-purple-400">하이브리드의 70% 비중</p>
               </div>
-              <ul className="space-y-2 text-sm text-gray-500">
-                <li className="flex items-start gap-2"><span className="text-gray-300 mt-0.5">·</span> 입력 단어를 직접 매칭</li>
-                <li className="flex items-start gap-2"><span className="text-gray-300 mt-0.5">·</span> 정확한 단어만 검색됨</li>
-                <li className="flex items-start gap-2"><span className="text-gray-300 mt-0.5">·</span> 한국어 조사 자동 제거</li>
-                <li className="flex items-start gap-2"><span className="text-gray-300 mt-0.5">·</span> 벡터 미사용 시 자동 대체</li>
-              </ul>
-              <p className="mt-3 text-xs text-gray-400">벡터 데이터 없을 때 폴백</p>
+              <div className="bg-gray-50 rounded-xl border border-gray-200 p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-lg">🔍</span>
+                  <h3 className="font-semibold text-gray-500 text-sm">키워드 검색</h3>
+                </div>
+                <ul className="space-y-1.5 text-xs text-gray-500">
+                  <li className="flex items-start gap-2"><span className="text-gray-300 mt-0.5">·</span> 입력 단어를 직접 매칭</li>
+                  <li className="flex items-start gap-2"><span className="text-gray-300 mt-0.5">·</span> 한국어 조사 자동 제거</li>
+                  <li className="flex items-start gap-2"><span className="text-gray-300 mt-0.5">·</span> 벡터 없을 때 단독 폴백</li>
+                </ul>
+                <p className="mt-2 text-xs text-gray-400">하이브리드의 30% 비중</p>
+              </div>
             </div>
           </div>
         </section>
@@ -453,7 +487,7 @@ export default function GuidePage() {
             })}
           </div>
           <p className="text-xs text-gray-400 text-center mt-4">
-            2022 개정 교육과정 · 초·중·고 전 교과 · Voyage AI voyage-3-lite 임베딩
+            2022 개정 교육과정 · 초·중·고 전 교과 · 하이브리드 검색 (벡터 + 키워드)
           </p>
         </section>
 
@@ -492,7 +526,7 @@ export default function GuidePage() {
       {/* 푸터 */}
       <footer className="max-w-5xl mx-auto px-4 py-8 mt-8 border-t border-gray-100">
         <p className="text-xs text-gray-400 text-center">
-          2022 개정 교육과정 기반 · AI 벡터 검색 · 융합교육 설계 도구
+          2022 개정 교육과정 기반 · 하이브리드 검색 · AI 융합교육 설계 도구
         </p>
       </footer>
     </div>

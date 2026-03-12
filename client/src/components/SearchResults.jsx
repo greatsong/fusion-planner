@@ -79,7 +79,7 @@ export default function SearchResults({ grouped, totalResults, elapsed, searchMo
           {elapsed && <span className="ml-1 text-gray-400">({elapsed})</span>}
         </p>
         <span className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-500">
-          {searchMode === 'vector' ? '🔮 벡터 검색' : '🔍 키워드 검색'}
+          {searchMode === 'hybrid' ? '🔮🔍 하이브리드' : searchMode === 'vector' ? '🔮 벡터 검색' : '🔍 키워드 검색'}
         </span>
       </div>
 

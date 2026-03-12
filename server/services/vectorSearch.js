@@ -176,6 +176,10 @@ function keywordSimilarity(queryTokens, standard) {
   return maxScore > 0 ? Math.min(score / maxScore, 1) : 0
 }
 
+// ─── 하이브리드 가중치 ───
+const VECTOR_WEIGHT = 0.7
+const KEYWORD_WEIGHT = 0.3
+
 // ─── 의미 검색 (메인 API) ───
 export async function searchSemantic(query, opts = {}) {
   const {
@@ -187,13 +191,16 @@ export async function searchSemantic(query, opts = {}) {
   if (!standardsIndex) throw new Error('vectorSearch가 초기화되지 않았습니다')
 
   let results = []
+  let mode = 'keyword'
 
-  // 벡터 검색 시도
+  // 하이브리드 검색 시도 (벡터 + 키워드 결합)
   if (useVectors && embeddings) {
     const queryVec = await embedQuery(query)
 
     if (queryVec) {
-      // 벡터 코사인 유사도
+      mode = 'hybrid'
+      const queryTokens = extractTokens(query)
+
       for (const [code, vec] of Object.entries(embeddings)) {
         const standard = standardsIndex.get(code)
         if (!standard) continue
@@ -202,20 +209,23 @@ export async function searchSemantic(query, opts = {}) {
         if (filters.school_level && standard.school_level !== filters.school_level) continue
         if (filters.subject_group && standard.subject_group !== filters.subject_group) continue
 
-        const similarity = cosineSimilarity(queryVec, vec)
+        const vecSim = cosineSimilarity(queryVec, vec)
+        const kwSim = queryTokens.length > 0 ? keywordSimilarity(queryTokens, standard) : 0
+        const similarity = VECTOR_WEIGHT * vecSim + KEYWORD_WEIGHT * kwSim
+
         if (similarity >= minSimilarity) {
           results.push({ standard, similarity })
         }
       }
 
       results.sort((a, b) => b.similarity - a.similarity)
-      return results.slice(0, limit)
+      return { results: results.slice(0, limit), mode }
     }
   }
 
   // 폴백: 키워드 기반 검색
   const queryTokens = extractTokens(query)
-  if (queryTokens.length === 0) return []
+  if (queryTokens.length === 0) return { results: [], mode }
 
   for (const [code, standard] of standardsIndex) {
     // 필터 적용
@@ -229,7 +239,7 @@ export async function searchSemantic(query, opts = {}) {
   }
 
   results.sort((a, b) => b.similarity - a.similarity)
-  return results.slice(0, limit)
+  return { results: results.slice(0, limit), mode }
 }
 
 // ─── 이웃 탐색 (특정 성취기준의 유사 기준 찾기) ───
@@ -242,12 +252,17 @@ export async function findNeighbors(code, opts = {}) {
   if (!standardsIndex) throw new Error('vectorSearch가 초기화되지 않았습니다')
 
   const center = standardsIndex.get(code)
-  if (!center) return { standard: null, neighbors: [] }
+  if (!center) return { standard: null, neighbors: [], mode: 'keyword' }
 
   let neighbors = []
+  let mode = 'keyword'
 
   if (useVectors && embeddings && embeddings[code]) {
+    mode = 'hybrid'
     const centerVec = embeddings[code]
+    const centerTokens = extractTokens(
+      `${center.content} ${(center.keywords || []).join(' ')} ${center.area || ''}`
+    )
 
     for (const [otherCode, otherVec] of Object.entries(embeddings)) {
       if (otherCode === code) continue
@@ -255,7 +270,10 @@ export async function findNeighbors(code, opts = {}) {
       if (!other) continue
       if (crossSubjectOnly && other.subject_group === center.subject_group) continue
 
-      const similarity = cosineSimilarity(centerVec, otherVec)
+      const vecSim = cosineSimilarity(centerVec, otherVec)
+      const kwSim = centerTokens.length > 0 ? keywordSimilarity(centerTokens, other) : 0
+      const similarity = VECTOR_WEIGHT * vecSim + KEYWORD_WEIGHT * kwSim
+
       if (similarity > 0.3) {
         neighbors.push({ standard: other, similarity })
       }
@@ -281,13 +299,14 @@ export async function findNeighbors(code, opts = {}) {
   return {
     standard: center,
     neighbors: neighbors.slice(0, limit),
+    mode,
   }
 }
 
 // ─── 상태 조회 ───
 export function getSearchStatus() {
   return {
-    mode: useVectors ? 'vector' : 'keyword',
+    mode: useVectors ? 'hybrid' : 'keyword',
     embeddingCount: embeddings ? Object.keys(embeddings).length : 0,
     standardCount: standardsIndex ? standardsIndex.size : 0,
     hasVoyageKey: !!process.env.VOYAGE_API_KEY,
